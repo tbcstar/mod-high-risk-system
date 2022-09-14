@@ -2,6 +2,7 @@
 * for the AstoriaCore Team and is fully ported over from TrinityCore to AzerothCore.
 * It has multiple Bugfixes, Performance and Efficiency Updates! ~ Lushen */
 
+#include "high_risk_system.h"
 #include "Player.h"
 #include "Creature.h"
 #include "AccountMgr.h"
