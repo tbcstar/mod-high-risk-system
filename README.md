@@ -1,25 +1,33 @@
-# SKELETON - Module template
+# High Risk System Module
 
-[English](README.md) | [Español](README_ES.md)
+## Description
 
-
-## How to create your own module
-
-1. Use the script `create_module.sh` located in [`modules/`](https://github.com/azerothcore/azerothcore-wotlk/tree/master/modules) to start quickly with all the files you need and your git repo configured correctly (heavily recommended).
-1. You can then use these scripts to start your project: https://github.com/azerothcore/azerothcore-boilerplates
-1. Do not hesitate to compare with some of our newer/bigger/famous modules.
-1. Edit the `README.md` and other files (`include.sh` etc...) to fit your module. Note: the README is automatically created from `README_example.md` when you use the script `create_module.sh`.
-1. Publish your module to our [catalogue](https://github.com/azerothcore/modules-catalogue).
+Kill players in the wild by picking up equipment dropped by each other, and the killed players will randomly drop the equipped items on their bodies
 
 
-## How to test your module?
 
-Disable PCH (precompiled headers) and try to compile. To disable PCH, set `-DNOPCH=1` with Cmake (more info [here](http://www.azerothcore.org/wiki/CMake-options)).
+## Requirements
 
-If you forgot some headers, it is time to add them!
+My_new_module requires:
 
-## Licensing
+- AzerothCore v4.0.0+
 
-The default license of the skeleton-module template is the MIT but you can use a different license for your own modules.
 
-So modules can also be kept private. However, if you need to add new hooks to the core, as well as improving existing ones, you have to share your improvements because the main core is released under the AGPL license. Please [provide a PR](https://www.azerothcore.org/wiki/How-to-create-a-PR) if that is the case.
+## Installation
+
+```
+1) Simply `git clone` the module under the `modules` directory of your AzerothCore source or copy paste it manually.
+2) Import the SQL manually to the right Database (auth, world or characters) or with the `db_assembler.sh` (if `include.sh` provided).
+3) Re-run cmake and launch a clean build of AzerothCore.
+```
+
+## Edit the module's configuration (optional)
+
+If you need to change the module configuration, go to your server configuration directory (where your `worldserver` or `worldserver.exe` is), copy `my_module.conf.dist` to `my_module.conf` and edit that new file.
+
+
+## Credits
+
+* [Lushen](https://github.com/RealLushen) : He put together this script
+* [acidmanifesto](https://github.com/acidmanifesto) : Removed unused variables
+* AzerothCore: [repository](https://github.com/azerothcore) - [website](http://azerothcore.org/) - [discord chat community](https://discord.gg/PaqQRkd)
