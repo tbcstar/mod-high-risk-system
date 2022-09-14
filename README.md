@@ -8,7 +8,7 @@ Kill players in the wild by picking up equipment dropped by each other, and the 
 
 ## Requirements
 
-My_new_module requires:
+High Risk module requires:
 
 - AzerothCore v4.0.0+
 
@@ -30,4 +30,5 @@ If you need to change the module configuration, go to your server configuration 
 
 * [Lushen](https://github.com/RealLushen) : He put together this script
 * [acidmanifesto](https://github.com/acidmanifesto) : Removed unused variables
+* [Bench](https://github.com/heyitsbench) : Thanks bro for patching the module
 * AzerothCore: [repository](https://github.com/azerothcore) - [website](http://azerothcore.org/) - [discord chat community](https://discord.gg/PaqQRkd)
