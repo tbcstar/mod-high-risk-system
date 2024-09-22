@@ -1,8 +1,9 @@
-/* Copyright (C) AstoriaCore 2021 | This piece of Code was customly coded by frytiks
-* for the AstoriaCore Team and is fully ported over from TrinityCore to AzerothCore.
-* It has multiple Bugfixes, Performance and Efficiency Updates! ~ Lushen */
+/*
+*   Copyright (C) AstoriaCore 2021 | This piece of Code was customly coded by frytiks
+*   for the AstoriaCore Team and is fully ported over from TrinityCore to AzerothCore.
+*   It has multiple Bugfixes, Performance and Efficiency Updates! ~ Lushen 
+*/
 
-#include "high_risk_system.h"
 #include "Player.h"
 #include "Creature.h"
 #include "AccountMgr.h"
@@ -21,18 +22,23 @@ void ReskillCheck(Player* killer, Player* killed)
     // if killer have same ip as killed or if player kill self dont spawn chest
     if (killer->GetSession()->GetRemoteAddress() == killed->GetSession()->GetRemoteAddress() || killer->GetGUID() == killed->GetGUID())
         return;
+
     // if killer is not a player dont drop
     if (!killer->GetGUID().IsPlayer())
         return;
+
     // if player have sickness, dont drop loot
     if (killed->HasAura(SPELL_SICKNESS))
         return;
+
     // if player is above 5 levels or more, dont drop loot
-    if (killer->getLevel() - 5 >= killed->getLevel())
+    if (killer->GetLevel() - 5 >= killed->GetLevel())
         return;
+
     // if player is in sanctuary zone dont drop loot
     AreaTableEntry const* area = sAreaTableStore.LookupEntry(killed->GetAreaId());
     AreaTableEntry const* area2 = sAreaTableStore.LookupEntry(killer->GetAreaId());
+
     if (area->IsSanctuary() || area2->IsSanctuary())
         return;
 }
@@ -41,19 +47,24 @@ class HighRiskSystem : public PlayerScript
 {
 public:
     HighRiskSystem() : PlayerScript("HighRiskSystem") {}
+
     void OnPVPKill(Player* killer, Player* killed)
     {
         if (!roll_chance_i(70))
             return;
+
         ReskillCheck(killer, killed);
 
         if (!killed->IsAlive())
         {
             uint32 prev = 0;
+
             uint32 count = 0;
+
             if (GameObject* go = killer->SummonGameObject(GOB_CHEST, killed->GetPositionX(), killed->GetPositionY(), killed->GetPositionZ(), killed->GetOrientation(), 0.0f, 0.0f, 0.0f, 0.0f, 300))
             {
                 killer->AddGameObject(go);
+
                 go->SetOwnerGUID(ObjectGuid::Empty);
 
                 for (int i = urand(0, 17); i < EQUIPMENT_SLOT_END; ++i)
@@ -68,12 +79,19 @@ public:
                                     continue;
 
                                 uint8 slot = pItem->GetSlot();
+
                                 ChatHandler(killed->GetSession()).PSendSysMessage("|cffDA70D6You have lost your |cffffffff|Hitem:%d:0:0:0:0:0:0:0:0|h[%s]|h|r", pItem->GetEntry(), pItem->GetTemplate()->Name1.c_str());
+
                                 LootStoreItem storeItem = LootStoreItem(pItem->GetEntry(), 0, 100, 0, LOOT_MODE_DEFAULT, 0, 1, 1);
+
                                 go->loot.AddItem(storeItem);
+
                                 killed->DestroyItem(INVENTORY_SLOT_BAG_0, slot, true);
+
                                 prev = i;
+
                                 count++;
+
                                 break;
                             }
                     }
@@ -92,13 +110,21 @@ public:
                             continue;
 
                         uint8 slot = pItem->GetSlot();
+
                         ChatHandler(killed->GetSession()).PSendSysMessage("|cffDA70D6You have lost your |cffffffff|Hitem:%d:0:0:0:0:0:0:0:0|h[%s]|h|r", pItem->GetEntry(), pItem->GetTemplate()->Name1.c_str());
+
                         LootStoreItem storeItem = LootStoreItem(pItem->GetEntry(), 0, 100, 0, LOOT_MODE_DEFAULT, 0, 1, 1);
+
                         go->loot.AddItem(storeItem);
+
                         killed->DestroyItem(INVENTORY_SLOT_BAG_0, slot, true);
+
                         ChatHandler(killed->GetSession()).PSendSysMessage("|cffDA70D6You have lost your [%s]", pItem->GetTemplate()->Name1.c_str());
+
                         prev = 0;
+
                         count++;
+
                         break;
                     }
                 }
@@ -115,10 +141,15 @@ public:
                             continue;
 
                         ChatHandler(killed->GetSession()).PSendSysMessage("|cffDA70D6You have lost your |cffffffff|Hitem:%d:0:0:0:0:0:0:0:0|h[%s]|h|r", pItem->GetEntry(), pItem->GetTemplate()->Name1.c_str());
+
                         LootStoreItem storeItem = LootStoreItem(pItem->GetEntry(), 0, 100, 0, LOOT_MODE_DEFAULT, 0, 1, 1);
+
                         go->loot.AddItem(storeItem);
+
                         killed->DestroyItemCount(pItem->GetEntry(), pItem->GetCount(), true, false);
+
                         count++;
+
                         break;
                     }
                 }
@@ -139,10 +170,15 @@ public:
                                     continue;
 
                                 ChatHandler(killed->GetSession()).PSendSysMessage("|cffDA70D6You have lost your |cffffffff|Hitem:%d:0:0:0:0:0:0:0:0|h[%s]|h|r", pItem->GetEntry(), pItem->GetTemplate()->Name1.c_str());
+
                                 LootStoreItem storeItem = LootStoreItem(pItem->GetEntry(), 0, 100, 0, LOOT_MODE_DEFAULT, 0, 1, 1);
+
                                 go->loot.AddItem(storeItem);
+
                                 killed->DestroyItemCount(pItem->GetEntry(), pItem->GetCount(), true, false);
+
                                 count++;
+
                                 break;
                             }
                         }
